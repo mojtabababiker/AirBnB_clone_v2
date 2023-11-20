@@ -19,10 +19,12 @@ class test_fileStorage(unittest.TestCase):
         for key in del_list:
             del storage._FileStorage__objects[key]
 
+        self.file_path = storage._FileStorage__file_path
+
     def tearDown(self):
         """ Remove storage file at end of tests """
         try:
-            os.remove('file.json')
+            os.remove(self.file_path)
         except Exception:
             pass
 
@@ -53,7 +55,7 @@ class test_fileStorage(unittest.TestCase):
     def test_base_model_instantiation(self):
         """ File is not created on BaseModel save """
         new = BaseModel()
-        self.assertFalse(os.path.exists('file.json'))
+        self.assertFalse(os.path.exists(self.file_path))
 
     def test_empty(self):
         """ Data is saved to file """
@@ -61,14 +63,14 @@ class test_fileStorage(unittest.TestCase):
         thing = new.to_dict()
         new.save()
         new2 = BaseModel(**thing)
-        self.assertNotEqual(os.path.getsize('file.json'), 0)
+        self.assertNotEqual(os.path.getsize(self.file_path), 0)
 
     def test_save(self):
         """ FileStorage save method """
         new = BaseModel()
         storage.save()
-        self.assertTrue(os.path.exists('file.json'))
-        with open("file.json", "r", encoding="utf-8") as f:
+        self.assertTrue(os.path.exists(self.file_path))
+        with open(self.file_path, "r", encoding="utf-8") as f:
             self.assertTrue(f"BaseModel.{new.id}" in f.read())
 
     def test_reload(self):
@@ -86,7 +88,7 @@ class test_fileStorage(unittest.TestCase):
 
     def test_reload_empty(self):
         """ Load from an empty file """
-        with open('file.json', 'w') as f:
+        with open(self.file_path, 'w') as f:
             pass
         with self.assertRaises(ValueError):
             storage.reload()
@@ -99,7 +101,7 @@ class test_fileStorage(unittest.TestCase):
         """ BaseModel save method calls storage save """
         new = BaseModel()
         new.save()
-        self.assertTrue(os.path.exists('file.json'))
+        self.assertTrue(os.path.exists(self.file_path))
 
     def test_type_path(self):
         """ Confirm __file_path is string """
