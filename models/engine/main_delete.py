@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 """ Test delete feature
 """
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+
 from models.engine.file_storage import FileStorage
 from models.state import State
 import uuid
