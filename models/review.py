@@ -12,8 +12,6 @@ class Review(BaseModel, Base):
     place_id = Column(String(60), ForeignKey("places.id"), nullable=False)
     user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
 
-    user = relationship("User", backref="reviews", cascade="all, delete-orphan")
-    place = relationship("Place", backref="reviews", cascade="all, delete-orphan")
 
     def __init__(self, *args, **kwargs):
         """ Initiate the instance with some default values and call the
@@ -23,3 +21,7 @@ class Review(BaseModel, Base):
         self.place_id = ""
         self.user_id = ""
         super().__init__(*args, **kwargs)
+
+
+Review.user = relationship("User", backref="reviews", cascade="all, delete-orphan")
+Review.place = relationship("Place", backref="reviews", cascade="all, delete-orphan")
