@@ -1,20 +1,12 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from models.base_model import BaseModel, Base
-from models.state import State
-from models.city import City
-import os
+from models.engine.db_storage import DBStorage
+from models.engine.file_storage import FileStorage
+from os import getenv
 
-# Set up database engine
-engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
-                       format(os.getenv('HBNB_MYSQL_USER'),
-                              os.getenv('HBNB_MYSQL_PWD'),
-                              os.getenv('HBNB_MYSQL_HOST'),
-                              os.getenv('HBNB_MYSQL_DB')), pool_pre_ping=True)
+storage_type = getenv('HBNB_TYPE_STORAGE')
 
-# Create tables
-Base.metadata.create_all(engine)
+if storage_type == 'db':
+    storage = DBStorage()
+else:
+    storage = FileStorage()
 
-# Create a session
-Session = sessionmaker(bind=engine)
-session = Session()
+storage.reload()

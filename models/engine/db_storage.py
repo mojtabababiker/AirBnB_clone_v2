@@ -12,19 +12,28 @@ class DBStorage:
                                       format(getenv('HBNB_MYSQL_USER'),
                                              getenv('HBNB_MYSQL_PWD'),
                                              getenv('HBNB_MYSQL_HOST'),
-                                             getenv('HBNB_MYSQL_DB')), pool_pre_ping=True)
+                                             getenv('HBNB_MYSQL_DB')),
+                                      pool_pre_ping=True)
 
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
+        from models.amenity import Amenity
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.review import Review
+
         session = self.__session
+        classes = [Amenity, User, Place, State, City, Review]
         if cls:
             objs = session.query(eval(cls)).all()
         else:
             objs = []
             for c in classes:
-                objs += session.query(c).all()
+                objs += session.query(c).all()  # append is cheaper than concat
         return {'{}.{}'.format(type(obj).__name__, obj.id): obj for obj in objs}
 
     def new(self, obj):
@@ -41,6 +50,13 @@ class DBStorage:
             session.delete(obj)
 
     def reload(self):
+        from models.amenity import Amenity
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.review import Review
+
         Base.metadata.create_all(self.__engine)
         Session = scoped_session(sessionmaker(bind=self.__engine,
                                               expire_on_commit=False))
