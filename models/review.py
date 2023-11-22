@@ -21,7 +21,3 @@ class Review(BaseModel, Base):
         self.place_id = ""
         self.user_id = ""
         super().__init__(*args, **kwargs)
-
-
-Review.user = relationship("User", backref="reviews", cascade="all, delete-orphan")
-Review.place = relationship("Place", backref="reviews", cascade="all, delete-orphan")
