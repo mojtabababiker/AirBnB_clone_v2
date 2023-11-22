@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import Base, BaseModel
-from sqlalchemy import Column, String, Intger, Float, ForeignKey
+from models.review import Review
+from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship, aliased
 import os
 
@@ -9,8 +10,8 @@ import os
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = "places"
-    city_id = Column(String(60), nullable=False, ForeginKey("cities.id"))
-    user_id = Column(String(60), nullable=False, ForeginKey("users.id"))
+    city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
+    user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
     name = Column(String(128), nullable=False)
     description = Column(String(1024), nullable=True)
     number_rooms = Column(Integer, nullable=False, default=0)
@@ -28,7 +29,20 @@ class Place(BaseModel, Base):
         reviews = [rev for rev in storage.all("Review").values()
                    if rev.place_id == self.id]
 
-    # amenity_ids = []
+    amenity_ids = []
+
+    def __init__(self, *args, **kwargs):
+        """ Initiate the instance with some default values and call the
+        super init to complete the initiate
+        """
+        self.city_id = ""
+        self.user_id = ""
+        self.name = ""
+        self.number_rooms = 0
+        self.number_bathrooms = 0
+        self.max_guest = 0
+        self.price_by_night = 0
+        super().__init__(*args, **kwargs)
 
 
 aliased_palce = aliased(Place, "place")

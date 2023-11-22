@@ -1,4 +1,7 @@
+#!/usr/bin/python3
+""" """
 from models.base_model import BaseModel, Base
+from models.city import City
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship, aliased
 import os
@@ -16,8 +19,16 @@ class State(BaseModel, Base):
                               cascade='all, delete-orphan')
     # in file_storage systems
     else:
+        from models import storage
         cities = [city for city in storage.all("City").values()
                   if city.state_id == self.id]
+
+    def __init__(self, *args, **kwargs):
+        """ Initiate the instance with some default values and call the
+        super init to complete the initiate
+        """
+        self.name = ""
+        super().__init__(*args, **kwargs)
 
 
 aliased_state = aliased(State, name='state')

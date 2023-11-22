@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 """This module defines a class User"""
 from models.base_model import Base, BaseModel
+from models.place import Place
+from models.review import Review
 from sqlalchemy import Column, String
-from sqlachemy.orm import relationship, aliased
+from sqlalchemy.orm import relationship, aliased
 
 
 class User(BaseModel, Base):
@@ -17,6 +19,16 @@ class User(BaseModel, Base):
                           cascade="all, delete-orphan")
     reviews = relationship("Review", backref="user",
                            cascade="all, delete-orphan")
+
+    def __init__(self, *args, **kwargs):
+        """ Initiate the instance with some default values and call the
+        super init to complete the initiate
+        """
+        self.email = ""
+        self.password = ""
+        self.first_name = ""
+        self.last_name = ""
+        super().__init__(*args, **kwargs)
 
 
 aliased_users = aliased(User, "user")

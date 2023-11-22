@@ -24,5 +24,5 @@ class test_Amenity(TestBaseModel):
         Test the name attribute of the Amenity
         """
         new = self.value()
-        new.name = ""
+
         self.assertEqual(type(new.name), str)

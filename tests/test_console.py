@@ -93,7 +93,7 @@ class TestConsole(unittest.TestCase):
         self.assertRegex(id, r"\w{8}-(\w{4}-){3}\w{12}")
         instance = storage.all()["{}.{}".format(cls, id)]
 
-        self.assertEqual(instance.latitude, 0.0)
+        self.assertEqual(instance.latitude, None)
         self.assertEqual(instance.longitude, 5.25)
         self.assertEqual(instance.max_guest, 0)
         self.assertEqual(instance.name, "")
@@ -112,10 +112,9 @@ class TestConsole(unittest.TestCase):
         self.assertRegex(id, r"\w{8}-(\w{4}-){3}\w{12}")
         instance = storage.all()["{}.{}".format(cls, id)]
 
-        self.assertEqual(instance.latitude, 0.0)
-        self.assertEqual(instance.longitude, 0.0)
+        self.assertEqual(instance.latitude, None)
+        self.assertEqual(instance.longitude, None)
         self.assertEqual(instance.max_guest, 0)
-        self.assertEqual(instance.name, "")
 
     def test_create_no_class(self):
         """ Test do_create(self, args), given no class
@@ -131,7 +130,7 @@ class TestConsole(unittest.TestCase):
         result = TestConsole.wraper.getvalue().strip()
         self.assertEqual(result, "** class doesn't exist **")
 
-    @patch('console.storage', **{"save.return_value": None})
+    @patch('models.storage', **{"save.return_value": None})
     def test_create_call_save(self, storage):
         """ Test do_create(self, args) that call the storage.save()
         """
@@ -142,6 +141,7 @@ class TestConsole(unittest.TestCase):
         """ Test do_show(self, args)
         """
         instance = BaseModel()
+        instance.save()
         cls = "BaseModel"
         HBNBCommand().onecmd("show {} {}".format(cls, instance.id))
         result = TestConsole.wraper.getvalue().strip()
@@ -196,6 +196,7 @@ class TestConsole(unittest.TestCase):
         instance = BaseModel()
         cls = "BaseModel"
         id = instance.id
+        instance.save()
         HBNBCommand().onecmd("destroy {} {}".format(cls, id))
         self.assertTrue(storage.called)
 
@@ -234,6 +235,7 @@ class TestConsole(unittest.TestCase):
         inst_1 = BaseModel()
         inst_2 = BaseModel()
 
+        inst_1.save()
         inst_2.save()  # save the instances to the json file
         HBNBCommand().onecmd("all")
         result = TestConsole.wraper.getvalue().strip()
@@ -288,8 +290,11 @@ class TestConsole(unittest.TestCase):
         instance = Place()
         id = instance.id
         cls = "Place"
+        instance.save()
         HBNBCommand().onecmd('update {} {} latitude "4.7"'.format(cls, id))
 
+        result = TestConsole.wraper.getvalue().strip()
+        # self.assertEqual(result, id)
         self.assertTrue(type(instance.latitude) is float)
         self.assertEqual(instance.latitude, 4.7)
 

@@ -38,6 +38,7 @@ class test_fileStorage(unittest.TestCase):
 
         objects_before = copy.deepcopy(storage.all())
         new = BaseModel()
+        new.save()
         objects = storage.all()
 
         self.assertTrue(len(objects) > len(objects_before))
@@ -68,7 +69,7 @@ class test_fileStorage(unittest.TestCase):
     def test_save(self):
         """ FileStorage save method """
         new = BaseModel()
-        storage.save()
+        new.save()
         self.assertTrue(os.path.exists(self.file_path))
         with open(self.file_path, "r", encoding="utf-8") as f:
             self.assertTrue(f"BaseModel.{new.id}" in f.read())
@@ -78,7 +79,7 @@ class test_fileStorage(unittest.TestCase):
         import copy
 
         new = BaseModel()
-        storage.save()
+        new.save()
         self.setUp()  # clear the storage. __objects
 
         storage.reload()
@@ -114,6 +115,7 @@ class test_fileStorage(unittest.TestCase):
     def test_key_format(self):
         """ Key is properly formatted """
         new = BaseModel()
+        new.save()
         _id = new.to_dict()['id']
         for key in storage.all().keys():
             temp = key

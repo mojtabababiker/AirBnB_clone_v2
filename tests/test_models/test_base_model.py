@@ -44,8 +44,10 @@ class TestBaseModel(unittest.TestCase):
         test instanation of the BaseModel class
         """
         instance = self.value()
+        instance.save()
         self.assertEqual(type(instance), self.value)
         self.assertFalse(instance.created_at == instance.updated_at)
+
         self.assertTrue(storage.new.called)
 
     def test_kwargs(self):

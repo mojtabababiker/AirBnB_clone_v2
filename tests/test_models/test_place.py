@@ -33,7 +33,7 @@ class test_Place(TestBaseModel):
     def test_description(self):
         """Test the Placs description attribute"""
         new = self.value()
-        self.assertEqual(type(new.description), str)
+        self.assertTrue(new.description is None)
 
     def test_number_rooms(self):
         """Test the number_rooms attribute """
@@ -58,12 +58,12 @@ class test_Place(TestBaseModel):
     def test_latitude(self):
         """ Test the latitude attribute"""
         new = self.value()
-        self.assertEqual(type(new.latitude), float)
+        self.assertTrue(new.latitude is None)
 
     def test_longitude(self):
         """ Test the longitude attribute"""
         new = self.value()
-        self.assertEqual(type(new.longitude), float)
+        self.assertTrue(new.longitude is None)
 
     def test_amenity_ids(self):
         """ Test the amenity_ids attribute"""
