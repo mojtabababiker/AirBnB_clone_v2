@@ -21,3 +21,22 @@ class Review(BaseModel, Base):
         self.place_id = ""
         self.user_id = ""
         super().__init__(*args, **kwargs)
+
+if os.getenv("HBNB_TYPE_STORAGE") == "db":
+    user = relationship("User", back_populates="reviews", foreign_keys=[user_id])
+else:
+    @property
+    def user(self):
+        """ Getter attribute for user when using FileStorage """
+        from models import storage
+        return storage.get("User", self.user_id)
+
+# For Place
+if os.getenv("HBNB_TYPE_STORAGE") == "db":
+    place = relationship("Place", back_populates="reviews", foreign_keys=[place_id])
+else:
+    @property
+    def place(self):
+        """ Getter attribute for place when using FileStorage """
+        from models import storage
+        return storage.get("Place", self.place_id)
