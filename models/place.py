@@ -33,18 +33,10 @@ class Place(BaseModel, Base):
                        if rev.place_id == self.id]
             return reviews
 
+    amenity_ids = []
+
     def __init__(self, *args, **kwargs):
         """ Initiate the instance with some default values and call the
         super init to complete the initiate
         """
-        self.city_id = ""
-        self.user_id = ""
-        self.name = ""
-        self.number_rooms = 0
-        self.number_bathrooms = 0
-        self.max_guest = 0
-        self.price_by_night = 0
         super().__init__(*args, **kwargs)
-
-
-aliased_place = aliased(Place, "place")
