@@ -6,7 +6,6 @@ from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship, aliased
 import os
 
-
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = "places"
@@ -47,6 +46,5 @@ class Place(BaseModel, Base):
         self.max_guest = 0
         self.price_by_night = 0
         super().__init__(*args, **kwargs)
-
 
 aliased_place = aliased(Place, "place")
