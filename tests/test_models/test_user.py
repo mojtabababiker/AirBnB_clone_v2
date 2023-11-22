@@ -2,6 +2,7 @@
 """Test module to test the User class using unittest moduel """
 from tests.test_models.test_base_model import TestBaseModel
 from models.user import User
+import os
 
 
 class test_User(TestBaseModel):
