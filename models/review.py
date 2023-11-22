@@ -21,7 +21,3 @@ class Review(BaseModel, Base):
         self.place_id = ""
         self.user_id = ""
         super().__init__(*args, **kwargs)
-
-if os.getenv("HBNB_TYPE_STORAGE") == "db":
-    user = relationship("User", back_populates="reviews")
-    place = relationship("Place", back_populates="reviews")
