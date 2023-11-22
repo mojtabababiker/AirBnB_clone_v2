@@ -49,4 +49,4 @@ class Place(BaseModel, Base):
         super().__init__(*args, **kwargs)
 
 
-aliased_palce = aliased(Place, "place")
+aliased_place = aliased(Place, "place")
