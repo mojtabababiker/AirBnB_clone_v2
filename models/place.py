@@ -10,6 +10,7 @@ import os
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = "places"
+
     city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
     user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
     name = Column(String(128), nullable=False)
@@ -40,3 +41,6 @@ class Place(BaseModel, Base):
         super init to complete the initiate
         """
         super().__init__(*args, **kwargs)
+
+
+alaised_place = aliased(Place, "place")

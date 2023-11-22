@@ -12,8 +12,8 @@ class City(BaseModel, Base):
     name = Column(String(128), nullable=False)
     state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
 
-    # places = relationship("Place", backref="cities",
-    #                      cascade="all, delete-orphan")
+    places = relationship("Place", backref="cities",
+                          cascade="all, delete-orphan")
 
     def __init__(self, *args, **kwargs):
         """ Initiate the instance with some default values and call the
