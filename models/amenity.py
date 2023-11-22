@@ -1,16 +1,20 @@
 #!/usr/bin/python3
-""" State Module for HBNB project """
+""" Amenity Module for HBNB project """
 from models.base_model import Base, BaseModel
-from sqlalchemy import Table, Column, String
+from sqlalchemy import Column, String, Table, ForeignKey
+from sqlalchemy.orm import relationship
 
 
 class Amenity(BaseModel, Base):
+    """ Amenity class to store amenity information """
     __tablename__ = "amenities"
     name = Column(String(128), nullable=False)
 
-    def __init__(self, *args, **kwargs):
-        """ Initiate the instance with some default values and call the
-        super init to complete the initiate
-        """
-        self.name = ""
-        super().__init__(*args, **kwargs)
+    place_amenities = relationship("Place", secondary="place_amenity", back_populates="amenities")
+
+
+# Define the association table for the Many-To-Many relationship
+association_table = Table('place_amenity', Base.metadata,
+                          Column('place_id', String(60), ForeignKey('places.id'), primary_key=True),
+                          Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True)
+                          )
