@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
