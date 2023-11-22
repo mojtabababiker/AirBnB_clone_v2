@@ -19,9 +19,14 @@ class State(BaseModel, Base):
                               cascade='all, delete-orphan')
     # in file_storage systems
     else:
-        from models import storage
-        cities = [city for city in storage.all("City").values()
-                  if city.state_id == self.id]
+        @property
+        def cities(self):
+            """ getter attribute that return all cities linked to this state
+            """
+            from models import storage
+            cities = [city for city in storage.all("City").values()
+                      if city.state_id == self.id]
+            return cities
 
     def __init__(self, *args, **kwargs):
         """ Initiate the instance with some default values and call the

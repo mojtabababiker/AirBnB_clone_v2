@@ -7,6 +7,7 @@ from datetime import datetime
 
 Base = declarative_base()
 
+
 class BaseModel:
 
     """A base class for all hbnb models"""
@@ -14,8 +15,8 @@ class BaseModel:
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
-
     def __init__(self, *args, **kwargs):
+
         """Instatntiates a new model"""
         if not kwargs:
             self.id = str(uuid.uuid4())
@@ -32,13 +33,13 @@ class BaseModel:
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        return '[{}] ({}) {}'.format(cls, self.id, self.to_dict())
 
     def save(self):
+        from models import storage
         """Updates updated_at with current time when instance is changed
         and call the storage.new(self) and storage.save()
         """
-        from models import storage
         self.updated_at = datetime.utcnow()
         storage.new(self)
         storage.save()
@@ -46,6 +47,7 @@ class BaseModel:
     def delete(self):
         """ Delete the instance by calling storage.delete(self)
         """
+        from models import storage
         storage.delete(self)
 
     def to_dict(self):

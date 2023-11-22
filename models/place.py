@@ -25,9 +25,13 @@ class Place(BaseModel, Base):
         reviews = relationship("Review", backref="place",
                                cascade="all, delete-orphan")
     else:
-        from models import storage
-        reviews = [rev for rev in storage.all("Review").values()
-                   if rev.place_id == self.id]
+        @property
+        def reviews(self):
+            """ Return self.reviews """
+            from models import storage
+            reviews = [rev for rev in storage.all(Review).values()
+                       if rev.place_id == self.id]
+            return reviews
 
     amenity_ids = []
 
