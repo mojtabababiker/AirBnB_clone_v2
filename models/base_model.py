@@ -6,7 +6,7 @@ import uuid
 from datetime import datetime
 
 Base = declarative_base()
-
+strptime = datetime.strptime
 
 class BaseModel:
 
@@ -23,11 +23,13 @@ class BaseModel:
             self.created_at = datetime.utcnow()
             self.updated_at = datetime.utcnow()
         else:
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            del kwargs['__class__']
+            if kwargs.get('updated_at', None):
+                kwargs['updated_at'] = strptime(kwargs['updated_at'],
+                                                '%Y-%m-%dT%H:%M:%S.%f')
+            if kwargs.get('created_at', None):
+                kwargs['created_at'] = strptime(kwargs['created_at'],
+                                                '%Y-%m-%dT%H:%M:%S.%f')
+            kwargs.pop('__class__', None)
             self.__dict__.update(kwargs)
 
     def __str__(self):
