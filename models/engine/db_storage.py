@@ -50,7 +50,6 @@ class DBStorage:
             self.__session.add(obj)
 
     def save(self):
-        print("CALLED")
         self.__session.commit()
 
     def delete(self, obj=None):
