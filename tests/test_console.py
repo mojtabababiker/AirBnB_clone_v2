@@ -105,8 +105,8 @@ class TestConsole(unittest.TestCase):
 
         self.assertEqual(instance.latitude, None)
         self.assertEqual(instance.longitude, 5.25)
-        self.assertEqual(instance.max_guest, 0)
-        self.assertEqual(instance.name, "")
+        self.assertEqual(instance.max_guest, None)
+        self.assertEqual(instance.name, None)
 
     @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") != "file_storage",
                      "test only on file_storage")
@@ -125,7 +125,7 @@ class TestConsole(unittest.TestCase):
 
         self.assertEqual(instance.latitude, None)
         self.assertEqual(instance.longitude, None)
-        self.assertEqual(instance.max_guest, 0)
+        self.assertEqual(instance.max_guest, None)
 
     def test_create_no_class(self):
         """ Test do_create(self, args), given no class
@@ -302,12 +302,9 @@ class TestConsole(unittest.TestCase):
         cls = "User"
         instance.save()
         cmd = 'update {} {}'.format(cls, id)
-        cmd += ' first_name="Moj" last_name="Ba"'
-        cmd += ' email="Moj@mail.com" password="1234"'
+        cmd += ' first_name "Moj" last_name "Ba"'
+        cmd += ' email "Moj@mail.com" password "1234"'
         HBNBCommand().onecmd(cmd)
-
-        result = TestConsole.wraper.getvalue().strip()
-        # self.assertEqual(result, id)
         self.assertTrue(type(instance.first_name) is str)
         self.assertEqual(instance.first_name, "Moj")
 

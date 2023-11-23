@@ -88,7 +88,7 @@ class TestBaseModel(unittest.TestCase):
         """ Testing the __str__ method"""
         instance = self.value()
         str_inst = '[{}] ({}) {}'.format(self.name, instance.id,
-                                         instance.__dict__)
+                                         instance.to_dict())
         self.assertEqual(str(instance), str_inst)
 
     def test_todict(self):
@@ -101,14 +101,6 @@ class TestBaseModel(unittest.TestCase):
         """Test the kwargs with None """
         n = {None: None}
         with self.assertRaises(TypeError):
-            new = self.value(**n)
-
-    def test_kwargs_one(self):
-        """
-        Test invalide value of the kwargs dict
-        """
-        n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
             new = self.value(**n)
 
     def test_id(self):

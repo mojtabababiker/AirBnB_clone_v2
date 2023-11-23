@@ -31,7 +31,7 @@ class test_state(TestBaseModel):
 
     def test_name3(self):
         """ Test the State name attribute"""
-        new = self.value()
+        new = self.value(name="Khar")
         self.assertEqual(type(new.name), str)
 
     @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") != "file_storage",

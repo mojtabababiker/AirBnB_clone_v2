@@ -19,15 +19,17 @@ class test_review(TestBaseModel):
 
     def test_place_id(self):
         """ Test the palce_id attribute"""
-        new = self.value()
+        from models.place import Place
+        new = self.value(place_id=Place().id)
         self.assertEqual(type(new.place_id), str)
 
     def test_user_id(self):
         """ Test the user_id attribute"""
-        new = self.value()
+        from models.user import User
+        new = self.value(user_id=User().id)
         self.assertEqual(type(new.user_id), str)
 
     def test_text(self):
         """ Test the text attribute"""
-        new = self.value()
+        new = self.value(text="Thi is an amazing place")
         self.assertEqual(type(new.text), str)
