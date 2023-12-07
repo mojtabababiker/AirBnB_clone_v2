@@ -7,8 +7,8 @@ import os.path
 
 
 def do_pack():
-    """ 
-    Pack the contect of AirBnB static ino .tar 
+    """
+    Pack the contect of AirBnB static ino .tar
     """
     if not os.path.isdir("./versions"):
         os.mkdir("./versions")
