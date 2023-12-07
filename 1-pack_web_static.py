@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Fabric script that pack and prepairs the static contents to be uploaded """
 
-
 from fabric.api import *
 import os
 import os.path

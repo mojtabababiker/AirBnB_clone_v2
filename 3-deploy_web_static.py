@@ -2,13 +2,17 @@
 """ Fabric script that pack and prepairs the static contents to be uploaded """
 
 from fabric.api import *
+import os
+import os.path
 
 
 env.hosts = ['18.204.3.225', '54.146.86.208']
 
 
 def do_pack():
-    """ Pack the contect of AirBnB static ino .tar """
+    """
+    Pack the contect of AirBnB static ino .tar
+    """
     if not os.path.isdir("./versions"):
         os.mkdir("./versions")
     name = local("date +%Y%m%d%H%m%S", capture=True)
