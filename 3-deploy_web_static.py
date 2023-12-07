@@ -9,9 +9,10 @@ env.hosts = ['18.204.3.225', '54.146.86.208']
 
 def do_pack():
     """ Pack the contect of AirBnB static ino .tar """
-    local("mkdir versions")
-    name = local("date +%-Y%m%d%H%m%s", capture=True)
-    result = local(f"tar -czvf versions/web_static_{name}.tgz web_static/",
+    if not os.path.isdir("./versions"):
+        os.mkdir("./versions")
+    name = local("date +%Y%m%d%H%m%S", capture=True)
+    result = local(f"tar -cvzf versions/web_static_{name}.tgz web_static",
                    capture=True)
 
     if result.failed:
