@@ -6,6 +6,7 @@ from fabric.api import *
 
 env.hosts = ['18.204.3.225', '54.146.86.208']
 
+
 def do_pack():
     """ Pack the contect of AirBnB static ino .tar """
     local("mkdir versions")
@@ -16,6 +17,7 @@ def do_pack():
     if result.failed:
         return None
     return "./versoins/web_static_{name}.tgz"
+
 
 def do_deploy(archive_path):
     """ Distrubute an archive to the web server """
@@ -41,6 +43,7 @@ def do_deploy(archive_path):
         return False
 
     return True
+
 
 def deploy():
     """ used to create and distributes an archive to the web servers """

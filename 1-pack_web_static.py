@@ -6,6 +6,7 @@ from fabric.api import *
 
 env.hosts = ['18.204.3.225', '54.146.86.208']
 
+
 def do_pack():
     """ Pack the contect of AirBnB static ino .tar """
     local("mkdir versions")
