@@ -29,8 +29,10 @@ def do_deploy(archive_path):
     try:
         if '/' in archive_path:
             archive_rel_path = archive_path.split('/')[-1]
+        else:
+            archive_rel_path = archive_path
         name = archive_rel_path.split('.')[0]
-        tar_path = "/data/web_static/releases/{name}"
+        tar_path = f"/data/web_static/releases/{name}"
         put(local_path=archive_path, remote_path="/temp/")
         run(f"mkdir -p {tar_path}")  # create the new version static file
         # uncompress the archive file
