@@ -34,7 +34,7 @@ chown -R ubuntu:ubuntu /data
 
 default_file="/etc/nginx/conf.d/default.conf"
 touch "$default_file" # just in case
-HostName=`cat /proc/sys/kernel/hostname`
+HostName=$(cat /proc/sys/kernel/hostname)
 
 ## over-write the default configuration file
 echo -e "server {
@@ -53,9 +53,11 @@ echo -e "server {
     }
 
     location /hbnb_static {
-    	alias   /data/web_static/current/;
+    	alias   /data/web_static/current;
+    }
 }
 " > "$default_file"
 
 ## relaod nginx server
 nginx -s reload
+exit 0
