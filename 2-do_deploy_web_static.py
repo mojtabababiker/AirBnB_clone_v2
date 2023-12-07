@@ -28,8 +28,8 @@ def do_deploy(archive_path):
     """ Distrubute an archive to the web server """
     try:
         if '/' in archive_path:
-            archive_path = archive_path.split('/')[-1]
-        name = archive_path.split('.')[0]
+            archive_rel_path = archive_path.split('/')[-1]
+        name = archive_rel_path.split('.')[0]
         tar_path = "/data/web_static/releases/{name}"
         put(local_path=archive_path, remote_path="/temp/")
         run(f"mkdir -p {tar_path}")  # create the new version static file
@@ -42,7 +42,8 @@ def do_deploy(archive_path):
         # remove the empty web_static directory
         run(f"rm -fr {tar_path}/web_static")
         # Delete the sympolic link and recreate it to link the new releas
-        run(f"ln -sf {tar_path} /data/web_static/current")
+        run(f"rm -f /data/web_static/current")
+        run(f"ln -s {tar_path} /data/web_static/current")
 
     except Exception:
         return False
