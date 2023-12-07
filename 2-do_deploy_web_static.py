@@ -33,12 +33,12 @@ def do_deploy(archive_path):
             archive_rel_path = archive_path
         name = archive_rel_path.split('.')[0]
         tar_path = f"/data/web_static/releases/{name}"
-        put(local_path=archive_path, remote_path="/temp/")
+        put(local_path=archive_path, remote_path="/tmp", use_sudo=True)
         run(f"mkdir -p {tar_path}")  # create the new version static file
         # uncompress the archive file
-        run(f"tar -xzf /temp/{archive_path} -C {tar_path}")
-        # remove the archive file from /temp
-        run(f"rm -f /temp/{archive_path}")
+        run(f"tar -xzf /tmp/{archive_rel_path} -C {tar_path}")
+        # remove the archive file from /tmp
+        run(f"rm -f /tmp/{archive_rel_path}")
         # move all the statice from the web_static to the new release
         run(f"mv {tar_path}/web_static/* {tar_path}/")
         # remove the empty web_static directory
