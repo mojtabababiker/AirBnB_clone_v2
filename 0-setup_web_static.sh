@@ -2,8 +2,8 @@
 # sets the web server for the deployment
 
 ## install nginx
-apt-get update
-apt-get install -y nginx
+apt-get update &> /dev/null
+apt-get install -y nginx &> /dev/null
 
 ## create the required directories
 mkdir -p /data/web_static/releases/test
@@ -24,25 +24,24 @@ echo -e "<!DOCTYPE html>
 </html>" > /data/web_static/releases/test/index.html
 
 ## create a link of releases/test in current
-ln -sf /data/web_static/releases/test/ /data/web_static/current
+ln -snf /data/web_static/releases/test /data/web_static/current
 
 ## change the owner/group of /data/ to user 'ubuntu'
-chown -R ubuntu:ubuntu /data
+#chown -R ubuntu:ubuntu /data
 
 ## update nginx configuration to serve the contect of current/
 ## when requesting hbnb_static/
 
 default_file="/etc/nginx/conf.d/default.conf"
 touch "$default_file" # just in case
-HostName=$(cat /proc/sys/kernel/hostname)
 
 ## over-write the default configuration file
 echo -e "server {
     listen       80  default_server;
-    server_name  _;
+    # server_name  __;
     root         /var/www/html;
     error_page   404        /404.html;
-    add_header   X-Served-By  $HostName always;
+    add_header   X-Served-By  \$hostname always;
 
     location = / {
         index   /index.html;
@@ -55,9 +54,11 @@ echo -e "server {
     location /hbnb_static {
     	alias   /data/web_static/current/;
     }
-}
-" > "$default_file"
+}" > "$default_file"
+
+sed -i 's/default_server;/;/g' /etc/nginx/sites-enabled/default
 
 ## relaod nginx server
+service nginx start
 nginx -s reload
 exit 0
