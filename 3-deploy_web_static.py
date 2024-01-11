@@ -1,58 +1,88 @@
 #!/usr/bin/python3
-""" Fabric script that pack and prepairs the static contents to be uploaded """
-
+"""
+A fabfile to prepare the static file for deploying
+"""
 from fabric.api import *
+from datetime import datetime
 import os
 import os.path
 
 
-env.hosts = ['18.204.3.225', '54.146.86.208']
 
-
+env.hosts = []
 def do_pack():
     """
-    Pack the contect of AirBnB static ino .tar
+    function which generates a .tgz archive from the contents
+    of web-static in order to prepare it to be pushed to the
+    server
     """
-    if not os.path.isdir("./versions"):
-        os.mkdir("./versions")
-    name = local("date +%Y%m%d%H%m%S", capture=True)
-    result = local(f"tar -cvzf versions/web_static_{name}.tgz web_static",
-                   capture=True)
+    date = datetime.now()
+    name = date.strftime('%Y%m%d%H%M%S')
+
+    if not os.path.isdir('versions'):
+        os.mkdir('versions')
+
+    result = local(f"tar -cvzf versions/web_static_{name}.tgz web_static")
 
     if result.failed:
         return None
-    return "versoins/web_static_{name}.tgz"
+
+    size = os.path.getsize(f"versions/web_static_{name}.tgz")
+    print(f"web_static packed: versions/web_static_{name}.tgz -> {size}Bytes")
+
+    return f"versions/web_static_{name}.tgz"
 
 
-def do_deploy(archive_path):
-    """ Distrubute an archive to the web server """
-    try:
-        if '/' in archive_path:
-            archive_path = archive_path.split('/')[-1]
-        name = archive_path.split('.')[0]
-        tar_path = "/data/web_static/releases/{name}"
-        put(local_path=archive_path, remote_path="/temp/")
-        run(f"mkdir -p {tar_path}")  # create the new version static file
-        # uncompress the archive file
-        run(f"tar -xzf /temp/{archive_path} -C {tar_path}")
-        # remove the archive file from /temp
-        run(f"rm -f /temp/{archive_path}")
-        # move all the statice from the web_static to the new release
-        run(f"mv {tar_path}/web_static/* {tar_path}/")
-        # remove the empty web_static directory
-        run(f"rm -fr {tar_path}/web_static")
-        # Delete the sympolic link and recreate it to link the new releas
-        run(f"ln -sf {tar_path} /data/web_static/current")
+def do_deploy(arhcive_path):
+    """
+    push and uncompress the archive file in the `archive_path` to the server/s
+    """
+    if archive_path is None or not os.path.isfile(archive_path):
+        return False
+    result = put(local_path=archive_path, remote_path='/temp')
+    if result.failed:
+        return False
+    name = os.path.basename(archive_path).split('.')[0]
 
-    except FileNotFoundError:
+    result = run(f"mkdir -p /data/web_static/releases/{name}")
+    if result.failed:
+        return False
+    result = run(f"tar -xzf /tmp/web_static_{name}.tgz -C /data/web_static/releases/{name}")
+    if result.failed:
         return False
 
+    result = run(f"mv /data/data/web_static/releases/{name}/web_static/*" +
+                 "  /data/data/web_static/releases/{name}/")
+    if result.failed:
+        return False
+
+    result = run(f"rm  -rf /data/data/web_static/releases/{name}/web_static")
+    if result.failed:
+        return False
+
+    result = run(f"rm -f /tmp/web_static_{name}.tgz")
+    if result.failed:
+        return False
+
+    result = run("rm -rf /data/web_static/current")
+    if result.failed:
+        return False
+
+    result = run(f"ln -snf /data/web_static/releases/web_static_{name}/ /data/web_static/current")
+    if result.failed:
+        return False
+
+    print("New version deployed!")
     return True
 
 
 def deploy():
-    """ used to create and distributes an archive to the web servers """
-    archive = do_pack()
-    if not archive:
+    """
+    handle the deploy proccess from the start to fully deploying
+    statics into server/s
+    """
+    ar_path = do_pack()
+    if not ar_path:
         return False
-    return (do_deploy(archive))
+
+    return do_deploy(ar_path)
