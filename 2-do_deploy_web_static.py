@@ -8,8 +8,7 @@ import os
 import os.path
 
 
-
-env.hosts = []
+env.hosts = ["54.84.73.143", "35.175.102.250"]
 def do_pack():
     """
     function which generates a .tgz archive from the contents

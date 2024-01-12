@@ -27,7 +27,7 @@ echo -e "<!DOCTYPE html>
 ln -snf /data/web_static/releases/test /data/web_static/current
 
 ## change the owner/group of /data/ to user 'ubuntu'
-#chown -R ubuntu:ubuntu /data
+chown -R ubuntu:ubuntu /data
 
 ## update nginx configuration to serve the contect of current/
 ## when requesting hbnb_static/
@@ -38,7 +38,7 @@ touch "$default_file" # just in case
 ## over-write the default configuration file
 echo -e "server {
     listen       80  default_server;
-    # server_name  __;
+    server_name  18.214.87.146;
     root         /var/www/html;
     error_page   404        /404.html;
     add_header   X-Served-By  \$hostname always;
@@ -48,7 +48,7 @@ echo -e "server {
     }
 
     location /redirect_me {
-        return  301;
+        return  301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
 
     location /hbnb_static {
