@@ -10,6 +10,8 @@ import os.path
 
 env.user = 'ubuntu'
 env.hosts = ["54.84.73.143", "35.175.102.250"]
+
+
 def do_pack():
     """
     function which generates a .tgz archive from the contents
@@ -88,6 +90,7 @@ def deploy():
         return False
 
     return do_deploy(ar_path)
+
 
 def do_clean(number=0):
     """
