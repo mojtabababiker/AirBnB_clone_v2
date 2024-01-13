@@ -46,8 +46,8 @@ def do_deploy(archive_path):
         result = run(f"mkdir -p /data/web_static/releases/{name}/")
         result = run(f"tar -xzf /tmp/{name}.tgz" +
                      f" -C /data/web_static/releases/{name}/")
-        result = run(f"cp -rf /data/web_static/releases/{name}/web_static/*"
-                     + f"  /data/web_static/releases/{name}/")
+        result = run(f"cp -rf /data/web_static/releases/{name}/web_static/*" +
+                     f"  /data/web_static/releases/{name}/")
         result = run(f"rm -rf /data/web_static/releases/{name}/web_static")
         result = run(f"rm -rf /tmp/{name}.tgz")
         result = run("rm -rf /data/web_static/current")
