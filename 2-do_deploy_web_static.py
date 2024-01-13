@@ -63,7 +63,7 @@ def do_deploy(archive_path):
     if result.failed:
         return False
 
-    result = run(f"rm -f /tmp/{name}.tgz")
+    result = run(f"rm -rf /tmp/{name}.tgz")
     if result.failed:
         return False
 
