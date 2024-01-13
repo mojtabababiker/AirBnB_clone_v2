@@ -73,7 +73,7 @@ def do_deploy(archive_path):
     if result.failed:
         return False
 
-    result = run(f"ln -s /data/web_static/releases/{}/".format(name) +
+    result = run("ln -s /data/web_static/releases/{}/".format(name) +
                  "  /data/web_static/current")
     if result.failed:
         return False
