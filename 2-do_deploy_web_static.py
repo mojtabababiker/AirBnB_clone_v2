@@ -25,13 +25,10 @@ def do_pack():
         os.mkdir('versions')
 
     try:
-        result = local("tar -cvzf versions/web_static_{}.tgz web_static".format(
-            name))
+        result = local(f"tar -cvzf versions/web_static_{name}.tgz web_static")
 
-        size = os.path.getsize("versions/web_static_{}.tgz".format(name))
-        print("web_static packed: versions/web_static_{}.tgz -> {}Bytes".format(
-            name, size))
-        return "versions/web_static_{}.tgz".format(name)
+        size = os.path.getsize(f"versions/web_static_{name}.tgz")
+        return f"versions/web_static_{name}.tgz"
     except Exception:
         return False
 
@@ -47,7 +44,7 @@ def do_deploy(archive_path):
         name = os.path.basename(archive_path).split('.')[0]
 
         result = run(f"mkdir -p /data/web_static/releases/{name}/")
-        result = run(f"tar -xzf /tmp/{name}.tgz"+
+        result = run(f"tar -xzf /tmp/{name}.tgz" +
                      f" -C /data/web_static/releases/{name}/")
         result = run(f"cp -rf /data/web_static/releases/{name}/web_static/*"
                      + f"  /data/web_static/releases/{name}/")
