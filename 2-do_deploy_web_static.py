@@ -9,7 +9,7 @@ import os.path
 
 
 env.user = 'ubuntu'
-env.hosts = ["54.84.73.143", "35.175.102.250"]
+env.hosts = ['54.84.73.143', '35.175.102.250']
 
 
 def do_pack():
@@ -41,7 +41,7 @@ def do_deploy(archive_path):
     """
     if archive_path is None or not os.path.isfile(archive_path):
         return False
-    result = put(local_path=archive_path, remote_path='/tmp')
+    result = put(local_path=archive_path, remote_path='/tmp/')
     if result.failed:
         return False
     name = os.path.basename(archive_path).split('.')[0]
@@ -54,7 +54,7 @@ def do_deploy(archive_path):
     if result.failed:
         return False
 
-    result = run(f"mv /data/web_static/releases/{name}/web_static/*" +
+    result = run(f"cp -rf /data/web_static/releases/{name}/web_static/*" +
                  f"  /data/web_static/releases/{name}/")
     if result.failed:
         return False
