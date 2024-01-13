@@ -24,15 +24,17 @@ def do_pack():
     if not os.path.isdir('versions'):
         os.mkdir('versions')
 
-    result = local(f"tar -cvzf versions/web_static_{name}.tgz web_static")
+    result = local("tar -cvzf versions/web_static_{}.tgz web_static".format(
+        name))
 
     if result.failed:
         return None
 
-    size = os.path.getsize(f"versions/web_static_{name}.tgz")
-    print(f"web_static packed: versions/web_static_{name}.tgz -> {size}Bytes")
+    size = os.path.getsize("versions/web_static_{}.tgz".format(name))
+    print("web_static packed: versions/web_static_{}.tgz -> {}Bytes".format(
+        name, size))
 
-    return f"versions/web_static_{name}.tgz"
+    return "versions/web_static_{}.tgz".format(name)
 
 
 def do_deploy(archive_path):
@@ -46,24 +48,24 @@ def do_deploy(archive_path):
         return False
     name = os.path.basename(archive_path).split('.')[0]
 
-    result = run(f"mkdir -p /data/web_static/releases/{name}/")
+    result = run("mkdir -p /data/web_static/releases/{}/".format(name))
     if result.failed:
         return False
-    result = run(f"tar -xzf /tmp/{name}.tgz" +
-                 f" -C /data/web_static/releases/{name}/")
-    if result.failed:
-        return False
-
-    result = run(f"cp -rf /data/web_static/releases/{name}/web_static/*" +
-                 f"  /data/web_static/releases/{name}/")
+    result = run("tar -xzf /tmp/{}.tgz".format(name) +
+                 " -C /data/web_static/releases/{}/".format(name))
     if result.failed:
         return False
 
-    result = run(f"rm  -rf /data/web_static/releases/{name}/web_static")
+    result = run("cp -rf /data/web_static/releases/{}/web_static/*".format(
+        name) + "  /data/web_static/releases/{}/".format(name))
     if result.failed:
         return False
 
-    result = run(f"rm -rf /tmp/{name}.tgz")
+    result = run("rm -rf /data/web_static/releases/{}/web_static".format(name))
+    if result.failed:
+        return False
+
+    result = run("rm -rf /tmp/{}.tgz".format(name))
     if result.failed:
         return False
 
@@ -71,7 +73,7 @@ def do_deploy(archive_path):
     if result.failed:
         return False
 
-    result = run(f"ln -s /data/web_static/releases/{name}/" +
+    result = run(f"ln -s /data/web_static/releases/{}/".format(name) +
                  "  /data/web_static/current")
     if result.failed:
         return False
