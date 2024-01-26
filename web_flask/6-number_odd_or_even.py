@@ -73,4 +73,5 @@ def is_odd_even_page(n):
     return render_template('6-number_odd_or_even.html', number=n)
 
 
-app.run('0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
