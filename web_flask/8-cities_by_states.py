@@ -18,7 +18,7 @@ def city_by_state_page():
     """
     states = storage.all(state.State).values()
     # print(list(states.values())[0].cities[0])
-    return render_template('7-states_list.html', states=states)
+    return render_template('8-cities_by_states.html', states=states)
 
 @app.teardown_appcontext
 def close(err=None):

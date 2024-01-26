@@ -11,3 +11,6 @@ else:
     storage = FileStorage()
 
 storage.reload()
+
+__all__ = ['amenity', 'city', 'place',
+           'review', 'state', 'user']

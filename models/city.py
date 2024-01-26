@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-""" """
+"""
+Moduls holds the City model
+"""
 from models.base_model import BaseModel, Base
 from models.place import Place
 from sqlalchemy import Column, String, ForeignKey
@@ -15,8 +17,10 @@ class City(BaseModel, Base):
     places = relationship("Place", backref="cities",
                           cascade="all, delete-orphan")
 
+
     def __init__(self, *args, **kwargs):
-        """ Initiate the instance with some default values and call the
+        """
+        Initiate the instance with some default values and call the
         super init to complete the initiate
         """
         super().__init__(*args, **kwargs)
