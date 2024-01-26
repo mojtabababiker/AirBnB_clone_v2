@@ -33,7 +33,7 @@ def c_is_fun_page(text):
     Just a random route to explain variables
     on the URL
     """
-    return f"C {text.replace('_', ' ')}"
+    return "C {}".format(text.replace('_', ' '))
 
 
 @app.route('/python/', strict_slashes=False)
@@ -43,7 +43,7 @@ def python_is_cool_page(text='is cool'):
     Just a random route to explain variables
     on the URL
     """
-    return f"Python {text.replace('_', ' ')}"
+    return "Python {}".format(text.replace('_', ' '))
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
@@ -52,7 +52,7 @@ def is_number_page(n):
     Just a random route to explain variables
     on the URL
     """
-    return f"{n} is a number"
+    return "{} is a number".format(n)
 
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
