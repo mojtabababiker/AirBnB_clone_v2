@@ -1,0 +1,25 @@
+<!DOCTYPE html/>
+<html>
+  <head>
+    <title>HBNB</title>
+  </head>
+  <body>
+    <h1>
+      States
+    </h1>
+    <ul>
+      {% for a_state in states|sort(case_sensitive=True, attribute='name') %}
+      {% set state = a_state %}
+      <li>
+	Hello {{ state.id }}: <b>{{ state.name }}</b>
+	<ul>
+	hello {{ state.name }}
+	{% for city in state.cities|sort(case_sensitive=True, attribute='name' %}
+	<li>{{ city.id }}: <b>{{ city.name }}</b></li>
+	{% endfor %}
+	</ul>
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
