@@ -3,7 +3,6 @@
 flask application routes
 """
 from models import storage
-from models import *
 from flask import Flask, render_template
 
 

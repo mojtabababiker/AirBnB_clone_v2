@@ -3,7 +3,6 @@
 module for application routes
 """
 from flask import Flask
-from web_flask import *
 
 
 app = Flask(__name__)

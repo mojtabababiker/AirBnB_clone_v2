@@ -4,7 +4,6 @@ module for application routes
 """
 from flask import Flask
 from flask import render_template
-from web_flask import *
 
 
 app = Flask(__name__)
