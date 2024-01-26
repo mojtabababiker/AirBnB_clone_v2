@@ -12,16 +12,16 @@ app = Flask(__name__)
 def home():
     """
     home page route which render the
-    'Hello HBNB!' message
+    Hello HBNB! message
     """
     return "Hello HBNB!"
 
 
-@app.route('/hbnb', strict_slashes=False)
-def home():
+@app.route('/hbnb/', strict_slashes=False)
+def hbnb_home():
     """
     hbnb page route which render the
-    'HBNB!' message
+    HBNB' message
     """
     return "HBNB"
 
