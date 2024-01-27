@@ -3,6 +3,7 @@
 flask application routes
 """
 from models import storage
+from models.state import State
 from flask import Flask, render_template
 
 
@@ -14,7 +15,7 @@ def state_page():
     """
     States route's page
     """
-    states = storage.all(state.State).values()
+    states = storage.all(State).values()
     return render_template('7-states_list.html', states=states)
 
 @app.teardown_appcontext
