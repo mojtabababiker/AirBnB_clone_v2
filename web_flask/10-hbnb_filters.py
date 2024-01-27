@@ -20,6 +20,7 @@ def hbnb_filters():
 
     return render_template('10-hbnb_filters.html')
 
+
 @app.teardown_appcontext
 def handle_teardown(err=None):
     """
