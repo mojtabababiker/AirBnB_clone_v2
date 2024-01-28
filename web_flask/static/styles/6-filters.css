@@ -1,16 +1,19 @@
 .filters {
-	display: block;
-	background-color: white;
-	height: 70px;
-	width: 100%;
-	border: 1px solid #DDDDDD;
-	border-radius: 4px;
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+
+    background-color: white;
+
+    height: 70px;
+    width: 100%;
+
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
 }
 
-.locations {
-	display: inline;
-	vertical-align: middle;
-	float: left;
+.locations, .amenities {
 	height: 100%;
 	width: 25%;
 
@@ -18,24 +21,20 @@
 	border-right: 1px solid #DDDDDD;
 }
 
-.filter_amenities {
-	display: inline;
-	vertical-align: middle;
-	height: 100%;
-	float: left;
-	width: 25%;
-
-	line-height: 20px;
+.locations {
+    order: 1;
 }
 
 .popover {
 	list-style-type: none;
 	display: none;
+	position: relative;
 	z-index: 1000;
 	background-color: #FAFAFA;
 	width: 100%;
 	max-height: 300px;
 	overflow: auto;
+	
 
 	margin-left: -1px;
 	margin-top: 8px;
@@ -43,37 +42,49 @@
 
 	border: 1px solid #DDDDDD;
 	border-radius: 4px;
+	transition: display 0.5s ease-in-out;
 }
 
-.locations:hover .popover {
+.popover::-webkit-scrollbar {
+  width: 5px;
+  height: 40%;
+  /*background-color: #3f3f3f;*/
+}
+
+ul.popover > li:first-child {
+    margin-top: 40px;
+}
+
+
+.locations:hover > .popover {
 	display: inline-block;
 }
 
-.filter_amenities:hover .popover {
+.amenities:hover > .popover {
 	display: inline-block;
 }
 
-ul {
+.filters ul {
 	list-style-type: none;
 	padding: 0px;
 	padding-bottom: 20px;
 }
 
 
-h2 {
+.filters h2 {
 	font-size: 16px;
 	padding-left: 30px;
 	margin: 0px;
 }
 
-h3 {
+.filters h3 {
 	font-weight: 600;
 	margin-top: 12px;
 	margin-bottom: 5px;
-	padding-left: 45px;
+	padding-left: 1.6em;
 }
 
-h4 {
+.filters h4 {
 	font-size: 14px;
 	font-weight: 400;
 	margin-top: 5px;
@@ -81,9 +92,10 @@ h4 {
 	padding-left: 45px;
 }
 
-button {
+.filters button {
 	color: #FFFFFF;
 	font-size: 18px;
+	cursor: pointer;
 
 	height: 48px;
 	width: 20%;
@@ -91,7 +103,8 @@ button {
 	border-style: none;
 	border-radius: 4px;
 
-	float: right;
+	position: absolute;
+	right: 0;
 	margin-top: 11px;
 	margin-bottom: 11px;
 	margin-right: 30px;
@@ -99,4 +112,18 @@ button {
 
 button:hover {
 	opacity: 90%;
+}
+
+@media (max-width: 670px) {
+    .locations, .amenities{
+        width: 35%;
+    }
+    .filters h3,
+    .filters .popover h4{
+	padding-left: 26px;
+    }
+
+    .filters .popover h2{
+        padding-left: 1.6em;
+    }
 }

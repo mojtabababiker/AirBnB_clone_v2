@@ -15,10 +15,10 @@ def hbnb_filters():
     """
     HBNB filters route page
     """
-    states = storage.all(state.State)
-    amenities = storage.all(amenity.Amenity)
+    states = storage.all(state.State).values()
+    amenities = storage.all(amenity.Amenity).values()
 
-    return render_template('10-hbnb_filters.html')
+    return render_template('10-hbnb_filters.html', states=states, amenities=amenities)
 
 
 @app.teardown_appcontext
